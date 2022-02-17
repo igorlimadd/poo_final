@@ -1,0 +1,123 @@
+class Account{
+    protected id:number;
+    protected balance:number = 0.00;
+    protected clientId:string;
+    protected type:string = "";
+
+
+    constructor(id:number, clientId:string){
+        this.id = id;
+        this.clientId = clientId;
+        
+        
+        
+    }
+
+    public deposit(valor:number){
+        this.balance += valor;
+
+    }
+    public monthlyUpdate(){
+
+    }
+    transfer(other:Account, valor:number){
+        if(this.balance >= valor){
+            this.balance -= valor;
+            other.deposit(valor);
+            return;
+        }
+
+    }
+    withdraw(valor:number){
+        if (this.balance >= valor){
+            this.balance -= valor;
+        }
+
+    }
+    getId(){
+        return this.id;
+    }
+    getBalance(){
+        return this.balance;
+    }
+    getClientId(){
+        return this.clientId;
+    }
+    getType(){
+        return this.type;
+    }
+    toString(){
+        return this.id + " : " + this.clientId + "\nSaldo: " + this.balance + " na Conta do tipo: " + this.type;
+
+    }
+}
+
+class CheckingAccount extends Account{
+    type:string = "CC";
+
+    constructor(id:number, clientId:string){
+        super(id,clientId);
+    }
+    public monthlyUpdate(){
+        this.balance -= 20;
+        console.log("Você teve -20 em sua CC")
+    }
+}
+class SavingAccount extends Account{
+    type:string = "CP"
+
+    constructor(id:number, clientId:string){
+        super(id,clientId);
+    }
+    public monthlyUpdate(){
+        this.balance += this.balance * 0.01
+    }
+}
+class Client{
+    private clientId: string;
+    private accounts: Array<Account>;
+
+    constructor(clientId:string){
+        this.clientId = clientId;
+        this.accounts = new Array<Account>();
+    }
+    public addAccount(account:Account){
+        this.accounts.push(account);
+    }
+    getClient(){
+        return this.clientId;
+    }
+    getAccounts():Array<Account>{
+        return this.accounts;
+    }
+
+}
+
+class BankAgency{
+    private clients: Map<string, Client>;
+    private accounts: Map<number, Account>;
+
+    constructor(){
+        this.clients = new Map<string,Client>();
+        this.accounts = new Map<number,Client>();
+
+    }
+    public addClient(clientId:string){
+        
+    }
+    public transfer(contaDe:number, contaPara:number, valor:number){
+
+    }
+}
+
+let conta1 = new Account(1,"João");
+let conta2 = new Account(2,"Maria");
+
+console.log(conta1.toString());
+console.log(conta2.toString());
+
+conta1.deposit(100);
+console.log(conta1.toString());
+
+conta1.withdraw(50);
+console.log(conta1.toString());
