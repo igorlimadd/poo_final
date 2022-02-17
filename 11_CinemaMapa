@@ -1,0 +1,72 @@
+class Cliente{
+
+    constructor(public nome:string){
+
+    }
+    toString(){
+        return this.id;
+    }
+    getFone(){
+        return this.fone;
+    }
+    setFone(fone:string){
+        return this.fone;
+    }
+    getId(id:string){
+        return this.id;
+    }
+
+}
+
+
+class Cinema{
+    cadeiras: Map<number, Cliente>;
+    nomes: Map<string, number>;
+    constructor(public lotacao:number){
+       this.cadeiras = new Map<number, Cliente>();
+       this.nomes = new Map<string, number>();    
+    }
+
+    reservar(cliente:Cliente, chave:number){ 
+        if (this.cadeiras.has(chave)){
+            console.log("Tem gente");
+            return;
+        }
+        if (this.nomes.has(cliente.nome)){
+            console.log("Já está no cinema");
+            return;
+        }
+        this.cadeiras.set(chave, cliente);
+        this.nomes.set(cliente.nome, chave);
+
+
+    }
+    cancelar(nome:string){   
+        if (this.nomes.has(nome)){
+            console.log("Pessoa nao encontrada");
+            return;
+        } 
+        let chave = this.nomes.get(nome);
+        this.cadeiras.delete(chave);
+        this.nomes.delete(nome);                                                   
+
+
+    }
+    toString(){
+        let f = "Fileiras: ";
+        for (let i=0; i<this.lotacao; i++){
+            if(this.cadeiras.has(i)){
+                let pessoa = this.cadeiras.get(i);
+                saida += pessoa.nome = " ";
+            }else{
+                saida += "- ";
+            }
+        }
+        return f;
+    }
+    
+
+
+}
+let sala01 = new Sala;
+console.log("" + sala01);
