@@ -1,0 +1,112 @@
+class Animal {
+    private alive:boolean = true;
+    private type: string = "";
+
+    constructor(type:string){
+        this.type = type;
+
+    }
+    public isAlive():boolean{
+        return this.alive;
+    }
+
+    public kill():void{
+        console.log("Não aguentei mais e morri")
+        this.alive = false;
+    }
+    public getType(): string{
+        return this.type;
+    }
+    public toString(){
+        return this.type + ": " + (this.alive ? "alive" : "dead"); 
+    }
+
+}
+
+class Pet extends Animal{
+    private nome:string;                                       
+    
+    public constructor(nome:string, type:string){
+        super(type);
+        this.nome = nome;
+    }
+    public nadar(){
+        console.log("procurando a " + this.nome);
+
+    }
+    public toString(){
+        return this.nome + ": " + super.toString();      // nao sabia que dava pra utilizar super em metodos, só sabia em atributos
+    }
+    
+}
+
+class Peixe extends Pet{
+    private vidas = 2;
+    
+    constructor(nome:string, vidas:number){
+        super(nome, "peixe");
+        this.vidas = vidas;
+    }
+    public kill(){               
+        if (this.isAlive()){
+            console.log("Ja morreu");
+        }
+        else if (this.vidas > 1){
+            console.log("Perdeu uma, tenta de novo vai");
+            this.vidas--;
+        }else{
+            super.kill();
+            this.vidas--;
+        }
+    }
+
+    public toString(){
+        return super.toString() + ": " + this.vidas + " vida";
+
+    }
+
+
+}
+
+
+
+
+function main(){
+    let marlin = new Peixe("Marlin", 1); // pai do nemo idoso
+    console.log(marlin.toString());
+    marlin.nadar();
+    marlin.kill();
+    marlin.kill();
+    marlin.kill();
+    marlin.kill();
+    marlin.nadar();
+    console.log(marlin.toString());
+
+}
+
+main();
+
+
+
+
+
+/*
+function main(){
+    let nemo = new Pet("Nemo", "peixe-palhaço");
+    console.log(nemo.toString());
+}
+    let dory = new Pet("Dory", "cirurgião-patela");
+    console.log(dory.toString());
+
+
+main();
+*/
+/*
+function main(){ 
+    let peixe = new Pet("Nemo", "Peixe");
+    console.log(peixe.toString());
+    peixe.kill();
+    console.log(peixe.toString());
+}
+
+main();  */
