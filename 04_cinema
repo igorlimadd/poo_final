@@ -1,0 +1,73 @@
+class Cliente{
+    fone:number;
+    id: string;
+
+    constructor(fone:number,id:string){
+        this.fone = fone;
+        this.id = id;
+    }
+    toString(){
+        return this.id;
+    }
+    getFone(){
+        return this.fone;
+    }
+    setFone(fone:string){
+        return this.fone;
+    }
+    getId(id:string){
+        return this.id;
+    }
+
+}
+
+
+class Sala{
+    fileira: Array <Cliente |null>
+    qtdCadeiras: number;
+
+    constructor(qtdCadeiras:number){
+        this.fileira = []
+        this.fileira.push(null)
+        this.qtdCadeiras = qtdCadeiras;
+            
+    }
+    //Senti dificuldade em entender como funcionaria o Sala(capacidade) então utilizei a logica explicada no video
+
+    reservar(cliente:Cliente, cadeira:number){       
+        if(this.qtdCadeiras != null){                         
+          console.log("Essa cadeira está ocupada")
+          return false;
+      }else{
+          this.fileira += cliente;
+          return true;
+        } 
+    }
+    cancelar():boolean{                                                         
+        if(this.qtdCadeiras === null){
+            console.log("essa cadeira não existe")
+            return;
+        }
+        if (this.qtdCadeiras != null){
+            console.log("cancelada")
+            return;
+        }
+
+    }
+    toString(){
+        let f = "Fileiras: ";
+        for (let i=0; i<this.sentados.lenght; i++){
+            let qtdCadeiras = this.fileira;
+        }
+        return f;
+    }
+    
+
+
+}
+
+let sala = new Sala(5);
+
+let Diego = new Cliente (85500, "1");
+sala.reservar(Diego, 3);
+console.log(sala.toString());
