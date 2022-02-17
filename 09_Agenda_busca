@@ -1,0 +1,170 @@
+class Agenda {
+    contatos: Array<Contato>;
+
+
+    constructor(contatos=[]){
+        this.contatos = contatos;
+    }
+
+
+    findPosByName(name:string){
+        let encontrar = new Array<Contato>();
+        for(let contato of this.contatos){
+            if(contato.getName().indexOf(name)){
+                encontrar.push(contato);
+            }
+        }
+        return encontrar;
+  
+    }
+    addContact(contato:Contato){
+        this.contatos.push(contato);
+
+    }
+    findContact(name:string){
+
+    }
+    rmContact(name:string){
+       // this.contatos.splice(name, 1)
+        console.log("contato")
+
+    }
+    search(pattern:string):Contato[]{
+        let encontrar = new Array<Contato>();
+        for(let contato of this.contatos){
+            if(contato.getName().indexOf(pattern)){
+                encontrar.push(contato);
+            }
+        }
+        return encontrar;
+        
+
+    }
+
+    toString():string{
+        let print: string = "";
+        for (let i=0;i<this.contatos.length;i++){
+            print += this.contatos[i].toString();
+        }
+        return print;
+
+    }
+    getContacts(){
+
+    }
+}
+
+
+
+
+class Fone {
+    private id: string;
+    private number: string;
+
+    public constructor(id:string, number:string){
+        this.id = id;
+        this.number = number;
+    }
+
+    public static validate(number: string){
+        let permitidos:string[] = ["1","2","3","4","5","6","7","8","9","0"];         // aprendi esse meio de validação no semestre passado então como eu sigo o metodo: tentar > assistir > tentar assistindo, deixei esse mesmo
+        for(let c of number){
+            if(!permitidos.includes(c)){
+                return true; 
+            }else{
+            return false;
+            }
+        }
+    }
+
+    public getId():string {
+        return this.id;
+    }
+
+    public getNumber(){
+        return this.number;
+    }
+
+    public setId(id:string){
+        this.id = id;
+    }
+
+    public setNumber(number:string){
+        this.number = number;
+    }
+    toString(){
+        return "[" + this.id + ":" + this.number + "]";
+
+    }
+
+
+}
+class Contato{
+
+    constructor(private name:string, private fones:Array<Fone>){
+        this.name = name;
+        this.fones = new  Array<Fone>();
+
+    }
+    public addFone(fone:Fone):any{
+        //if (fone.validate()){              //dizia que o validate nao estava dentro de Fone, mas tá
+            this.fones.push(fone);
+            console.log ("Adicionado");
+          //  return
+       // }
+
+    }
+    public rmFone(index:number){
+        this.fones.splice(index,1);
+        console.log("Removi")
+
+        
+    }
+    public toString(){
+           let resultado = " " + this.name + " ";
+        for(let i in this.fones){
+            resultado += ("["+i+":"+this.fones[i].getId()+":"+this.fones[i].getNumber()+"] ");
+        }
+        return resultado;
+
+    }
+    getName(){
+        return this.name;
+    }
+}
+
+    
+let fone1 = new Fone("casa", "858986");
+let joao = new Contato("João", [fone1]);
+
+let fone2 = new Fone("trabalho", "8899815");
+joao.addFone(fone2);
+console.log(joao.toString())
+
+
+let fone3 = new Fone("amor", "857789");
+joao.addFone(fone3);
+console.log(joao.toString())
+
+joao.rmFone(1);
+console.log(joao.toString())
+
+
+let fone4 = new Fone("mãe", "855646");
+joao.addFone(fone4);
+
+
+let agenda = new Agenda();
+
+agenda.addContact(joao);
+
+let igorfone = new Fone ("Oi", "8895265");
+let igor = new Contato ("Igor", [igorfone]);
+igor.addFone(igorfone);
+agenda.addContact(igor);
+
+console.log(agenda.toString());
+
+
+console.log(agenda.search("João"));
+console.log(agenda.findPosByName("João"));
