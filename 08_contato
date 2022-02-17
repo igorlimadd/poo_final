@@ -1,0 +1,101 @@
+class Fone {
+    private id: string;
+    private number: string;
+
+    public constructor(id:string, number:string){
+        this.id = id;
+        this.number = number;
+    }
+
+    public static validate(number: string){
+        let permitidos:string[] = ["1","2","3","4","5","6","7","8","9","0"];         // aprendi esse meio de validação no semestre passado então como eu sigo o metodo: tentar > assistir > tentar assistindo, deixei esse mesmo
+        for(let c of number){
+            if(!permitidos.includes(c)){
+                return true; 
+            }else{
+            return false;
+            }
+        }
+    }
+
+    public getId():string {
+        return this.id;
+    }
+
+    public getNumber(){
+        return this.number;
+    }
+
+    public setId(id:string){
+        this.id = id;
+    }
+
+    public setNumber(number:string){
+        this.number = number;
+    }
+    toString(){
+        return "[" + this.id + ":" + this.number + "]";
+
+    }
+
+
+}
+class Contato{
+
+    constructor(private name:string, private fones:Array<Fone>){
+        this.name = name;
+        this.fones = new  Array<Fone>();
+
+    }
+    public addFone(fone:Fone):any{
+        //if (fone.validate()){              //dizia que o validate nao estava dentro de Fone, mas tá
+            this.fones.push(fone);
+            console.log ("Adicionado");
+          //  return
+       // }
+
+    }
+    public rmFone(index:number){
+        this.fones.splice(index,1);
+        console.log("Removi")
+
+        
+    }
+    public toString(){
+           let resultado = " " + this.name + " ";
+        for(let i in this.fones){
+            resultado += ("["+i+":"+this.fones[i].getId()+":"+this.fones[i].getNumber()+"] ");
+        }
+        return resultado;
+
+    }
+}
+
+    
+let fone = new Fone("casa", "858986");
+let contato = new Contato("João", [fone, new Fone("oi", "(85)")]);
+
+let fone2 = new Fone("trabalho", "8899815");
+contato.addFone(fone2);
+console.log(contato.toString())
+
+
+let fone3 = new Fone("amor", "857789");
+contato.addFone(fone3);
+console.log(contato.toString())
+
+contato.rmFone(1);
+console.log(contato.toString())
+
+
+
+let fone4 = new Fone("mãe", "855646");
+contato.addFone(fone4);
+let fone5 = new Fone("pai", "854435");
+contato.addFone(fone5);
+let fone6 = new Fone("amor", "857789");
+contato.addFone(fone6);
+console.log(contato.toString())
+
+contato.rmFone(1);
+console.log(contato.toString())
