@@ -1,0 +1,173 @@
+class Paciente{
+    private diagnostico:string = "";                                             //seguindo a matricula
+    private medicos: Map<string, Medico>
+    private sender:string = "";
+    private id:string;
+
+
+    constructor(id:string){
+        this.id = id;
+        this.medicos = new Map<string, Medico> ();
+    }
+    public getId(){
+        return this.id;
+    }
+    public addMedico(medico:Medico):any{
+        let identificador = medico.getId();
+        if (this.medicos.has(identificador))
+            return;
+        this.medicos.set(identificador, medico);
+        medico.addPaciente(this);
+
+    }
+    public rmMedico(key:string):any{
+        let medico: undefined| Medico = this.medicos.get(key);
+        if (medico !== undefined){
+            this.medicos.delete(key);
+            medico.rmPaciente(this.id);
+        }
+        
+    }
+    public getMedicos(){
+        
+    }
+    public getDiagnostico(){
+
+    }
+    public toString(): string{
+        let keys = this.medicos.keys();
+        return this.id + " [" + [...keys].join(", ") + "]";
+
+
+    }
+}
+
+class Medico{
+    private id:string;
+   // private classe:string;
+    pacientes: Map<string, Paciente>;
+   // sender:string;
+    
+
+    constructor(id:string){
+        this.id = id;
+        this.pacientes = new Map<string, Paciente> ();
+    }
+    public getId(){
+        return this.id;
+    }
+    public addPaciente(paciente:Paciente){
+        let ident = paciente.getId();
+        if (this.pacientes.has(ident))
+            return;
+        this.pacientes.set(ident, paciente);
+        paciente.addMedico(this);
+
+
+    }
+    public rmPaciente(key:string){
+        let paciente: undefined| Paciente = this.pacientes.get(key);
+        if (paciente !== undefined){
+            this.pacientes.delete(key);
+            paciente.rmMedico(this.id);
+        }
+    }
+    public toString(): string{
+        let keys = this.pacientes.keys();
+        return this.id + " [" + [...keys].join(", ") + "]";
+
+
+    }
+   
+}
+
+class Hospital{
+    private pacientes: Map<string, Paciente>;
+    private medicos: Map<string, Medico>;
+
+    constructor(){
+        this.pacientes = new Map<string, Paciente>();
+        this.medicos = new Map<string, Medico>();
+    }
+    public addMedico(medico:Medico):any{
+        let key = medico.getId();
+        if(this.medicos.has(key))
+            return;
+        this.medicos.set(key, medico);
+
+    }
+    public addPaciente(paciente:Paciente){
+        let key = paciente.getId();
+        if(this.pacientes.has(key))
+            return;
+        this.pacientes.set(key, paciente);
+
+    }
+    public vincular (n_paciente:string, n_medico:string){
+        let paciente = this.getPaciente(n_paciente);
+        let medico = this.getMedico(n_medico);
+        paciente.addMedico(n_medico);                         //Property 'addMedico' does not exist on type 'void'.
+
+    }
+    public getMedico(nome:string){
+        let medico: undefined|Medico = this.medicos.get(nome);
+
+
+    }
+    public getPaciente(key:string){
+        let paciente: undefined|Paciente = this.pacientes.get(key);  
+    }
+
+
+    public toString(){
+        let pacientes = [...this.pacientes.values()].map(p => p.toString()); 
+        let medico = [...this.medicos.values()]. map(m => m.toString());   
+        return "Pacientes: " + pacientes.join ("\n") + "\nMedicos:\n " + medico.join("\n"); 
+        
+        //complicado de entender
+    }
+
+
+}
+
+let hosp = new Hospital();
+hosp.addPaciente(new Paciente("João"));
+hosp.addPaciente(new Paciente("Pedro"));
+hosp.addPaciente(new Paciente("Maria"));
+
+hosp.addMedico(new Medico("Dr.Ricardo"));
+hosp.addMedico(new Medico("Dra.Marina"));
+hosp.addMedico(new Medico("Dra.Paula"));
+
+
+hosp.vincular("João", "Dr.Ricardo");
+hosp.vincular("Pedro", "Dra.Marina");
+hosp.vincular("Maria", "Dra.Paula");
+
+console.log(hosp.toString());
+
+/*
+
+let tiago = new Paciente ("Tiago");
+let natalia = new Medico("Natalia");
+let marcos = new Medico ("Marcos")
+
+tiago.addMedico(natalia);
+
+tiago.addMedico(marcos);
+
+console.log("" + tiago);
+console.log("" + natalia);
+console.log("" + tiago);
+console.log("" + marcos);
+
+natalia.rmPaciente("Tiago");
+console.log(" -------------- ")
+
+
+console.log("" + tiago);
+console.log("" + natalia);
+console.log("" + tiago);
+console.log("" + marcos);
+
+*/
